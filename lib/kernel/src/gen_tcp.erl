@@ -98,6 +98,7 @@
         {ifaddr, inet:ip_address()} |
         inet:address_family() |
         {port, inet:port_number()} |
+        {pick_random_dns_record, boolean()} |
         {tcp_module, module()} |
         option().
 -type listen_option() ::
@@ -152,7 +153,12 @@ connect1(Address,Port,Opts,Timer) ->
     case Mod:getaddrs(Address,Timer) of
 	{ok,IPs} ->
 	    case Mod:getserv(Port) of
-		{ok,TP} -> try_connect(IPs,TP,Opts,Timer,Mod,{error,einval});
+		{ok,TP} ->
+			IPs2 = case lists:keyfind(pick_random_dns_record,1,Opts) of
+			{pick_random_dns_record,true} -> shuffle(IPs2);
+			_ -> IP
+			end,
+			try_connect(IPs2,TP,Opts,Timer,Mod,{error,einval});
 		Error -> Error
 	    end;
 	Error -> Error
@@ -360,3 +366,5 @@ mod([_|Opts], Address) ->
 mod([], Address) ->
     mod(Address).
 
+shuffle(L) ->
+    [E || {_, E} <- lists:keysort(1, [{random:uniform(), E} || E <- L])].
