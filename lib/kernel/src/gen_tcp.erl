@@ -156,7 +156,7 @@ connect1(Address,Port,Opts,Timer) ->
 		{ok,TP} ->
 			IPs2 = case lists:keyfind(pick_random_dns_record,1,Opts) of
 			{pick_random_dns_record,true} -> shuffle(IPs2);
-			_ -> IP
+			_ -> IPs
 			end,
 			try_connect(IPs2,TP,Opts,Timer,Mod,{error,einval});
 		Error -> Error
