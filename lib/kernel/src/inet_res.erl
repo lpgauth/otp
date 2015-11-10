@@ -715,10 +715,10 @@ udp_send(#sock{inet=I}, {A,B,C,D}=IP, Port, Buffer)
 
 udp_recv(#sock{inet6=I}, {A,B,C,D,E,F,G,H}=IP, Port, Timeout, Decode)
   when ?ip6(A,B,C,D,E,F,G,H), ?port(Port) ->
-    do_udp_recv(I, IP, Port, Timeout, Decode, erlang:now(), Timeout);
+    do_udp_recv(I, IP, Port, Timeout, Decode, erlang:timestamp(), Timeout);
 udp_recv(#sock{inet=I}, {A,B,C,D}=IP, Port, Timeout, Decode)
   when ?ip(A,B,C,D), ?port(Port) ->
-    do_udp_recv(I, IP, Port, Timeout, Decode, erlang:now(), Timeout).
+    do_udp_recv(I, IP, Port, Timeout, Decode, erlang:timestamp()), Timeout).
 
 do_udp_recv(_I, _IP, _Port, 0, _Decode, _Start, _T) ->
     timeout;
@@ -742,7 +742,7 @@ do_udp_recv(I, IP, Port, Timeout, Decode, Start, T) ->
 		    NewTimeout = erlang:max(0, Timeout - 50),
 		    do_udp_recv(I, IP, Port, NewTimeout, Decode, Start, T);
 		false ->
-		    Now = erlang:now(),
+		    Now = erlang:timestamp(),
 		    NewT = erlang:max(0, Timeout - now_ms(Now, Start)),
 		    do_udp_recv(I, IP, Port, Timeout, Decode, Start, NewT);
 		Result ->

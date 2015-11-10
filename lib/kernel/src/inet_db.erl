@@ -1371,7 +1371,7 @@ cache_rr(_Db, Cache, RR) ->
     ets:insert(Cache, RR).
 
 times() ->
-    {Mega,Secs,_} = erlang:now(),
+    {Mega,Secs,_} = erlang:timestamp(),
     Mega*1000000 + Secs.
 
 %% lookup and remove old entries
