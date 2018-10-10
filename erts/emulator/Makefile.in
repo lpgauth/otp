@@ -119,7 +119,7 @@ ENABLE_ALLOC_TYPE_VARS += purecov
 else
 
 ifeq ($(TYPE),gcov)
-PURIFY = 
+PURIFY =
 TYPEMARKER = .gcov
 TYPE_FLAGS = $(DEBUG_CFLAGS) -DERTS_GCOV -DNO_JUMP_TABLE -fprofile-arcs -ftest-coverage -O0 -DERTS_CAN_INLINE=0 -DERTS_INLINE=
 ifneq ($(findstring solaris,$(TARGET)),solaris)
@@ -129,14 +129,14 @@ ENABLE_ALLOC_TYPE_VARS += debug
 else
 
 ifeq ($(TYPE),valgrind)
-PURIFY = 
+PURIFY =
 TYPEMARKER = .valgrind
 TYPE_FLAGS = $(DEBUG_CFLAGS) -DVALGRIND -DNO_JUMP_TABLE
 ENABLE_ALLOC_TYPE_VARS += valgrind
 else
 
 ifeq ($(TYPE),gprof)
-PURIFY = 
+PURIFY =
 TYPEMARKER = .gprof
 TYPE_FLAGS = @CFLAGS@ -DGPROF -pg -DERTS_CAN_INLINE=0 -DERTS_INLINE=
 LDFLAGS += -pg
@@ -306,7 +306,7 @@ UNROLL_FLG = -funroll-loops
 else
 ifeq ($(TARGET), win32)
 GEN_OPT_FLGS = $(OPT_LEVEL)
-UNROLL_FLG = 
+UNROLL_FLG =
 RC=rc.sh
 ifeq ($(MIXED_MSYS), yes)
 MAKE_PRELOAD_EXTRA = -msys
@@ -318,8 +318,8 @@ else
 RES_EXT=res
 endif
 else
-GEN_OPT_FLGS = 
-UNROLL_FLG = 
+GEN_OPT_FLGS =
+UNROLL_FLG =
 RC=false
 endif
 endif
@@ -329,7 +329,7 @@ ifdef PURIFY_CHILD_SETUP
 CS_PURIFY = $(PURIFY)
 CS_TYPE_FLAGS = $(TYPE_FLAGS)
 else
-CS_PURIFY = 
+CS_PURIFY =
 CS_TYPE_FLAGS = $(subst QUANTIFY,FAKE_QUANTIFY, \
 		$(subst PURIFY,FAKE_PURIFY, $(TYPE_FLAGS)))
 endif
@@ -551,7 +551,7 @@ ifdef DTRACE_ENABLED
 DTRACE_HEADERS = $(TARGET)/erlang_dtrace.h
 GENERATE+= $(DTRACE_HEADERS)
 else
-DTRACE_HEADERS = 
+DTRACE_HEADERS =
 endif
 
 ifdef HIPE_ENABLED
@@ -629,7 +629,7 @@ GENERATE += $(TTF_DIR)/driver_tab.c
 
 
 # Preloaded code.
-# 
+#
 # This list must be consistent with PRE_LOADED_MODULES in
 # erts/preloaded/src/Makefile.
 
@@ -690,7 +690,7 @@ $(TARGET)/erlang_dtrace.h: beam/erlang_dtrace.d
 #
 COMMON_INCLUDES = -Ibeam -Isys/$(ERLANG_OSTYPE) -Isys/common -I$(TARGET)
 ifndef Z_LIB
-COMMON_INCLUDES += -Izlib 
+COMMON_INCLUDES += -Izlib
 endif
 COMMON_INCLUDES += -Ipcre -Ihipe
 COMMON_INCLUDES += -I../include -I../include/$(TARGET)
@@ -879,7 +879,7 @@ RUN_OBJS += \
 	$(OBJDIR)/erl_thr_queue.o	$(OBJDIR)/erl_sched_spec_pre_alloc.o \
 	$(OBJDIR)/erl_ptab.o		$(OBJDIR)/erl_map.o \
 	$(OBJDIR)/erl_msacc.o		$(OBJDIR)/erl_lock_flags.o \
-	$(OBJDIR)/erl_io_queue.o
+	$(OBJDIR)/erl_io_queue.o    $(OBJDIR)/json.o
 
 LTTNG_OBJS = $(OBJDIR)/erlang_lttng.o
 NIF_OBJS = \
@@ -1154,7 +1154,7 @@ ALL_SYS_SRC=$(wildcard sys/$(ERLANG_OSTYPE)/*.c) $(wildcard sys/common/*.c)
 # loadtime of the makefile and at that time these files are not generated yet.
 TARGET_SRC=$(shell ls $(TARGET)/*.c) $(shell ls $(TTF_DIR)/*.c)
 
-# I do not want the -MG flag on windows, it does not work properly for a 
+# I do not want the -MG flag on windows, it does not work properly for a
 # windows build.
 
 ifeq ($(TARGET),win32)
